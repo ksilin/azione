@@ -9,6 +9,7 @@ lazy val azione =
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
+        library.zio,
         library.scalaCheck % Test,
         library.scalaTest  % Test,
       )
@@ -21,9 +22,12 @@ lazy val azione =
 lazy val library =
   new {
     object Version {
+      val zio        = "0.6.1"
       val scalaCheck = "1.14.0"
       val scalaTest  = "3.0.5"
     }
+    val zio = "org.scalaz" %% "scalaz-zio" % Version.zio
+
     val scalaCheck = "org.scalacheck" %% "scalacheck" % Version.scalaCheck
     val scalaTest  = "org.scalatest"  %% "scalatest"  % Version.scalaTest
   }
@@ -33,13 +37,13 @@ lazy val library =
 // *****************************************************************************
 
 lazy val settings =
-  commonSettings ++
-  scalafmtSettings
+commonSettings ++
+scalafmtSettings
 
 lazy val commonSettings =
   Seq(
     scalaVersion := "2.12.8",
-    organization := "default",
+    organization := "com.exmaple",
     organizationName := "ksilin",
     startYear := Some(2019),
     licenses += ("Apache-2.0", url("http://www.apache.org/licenses/LICENSE-2.0")),
@@ -48,13 +52,14 @@ lazy val commonSettings =
       "-deprecation",
       "-language:_",
       "-target:jvm-1.8",
-      "-encoding", "UTF-8",
+      "-encoding",
+      "UTF-8",
       "-Ypartial-unification",
       "-Ywarn-unused-import",
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
     Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value),
-)
+  )
 
 lazy val scalafmtSettings =
   Seq(
